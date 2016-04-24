@@ -1,0 +1,132 @@
+<div class="container clearfix">
+
+
+	<div class="content contentAdmin">
+		<div class="flow flowAdmin">
+
+			<div class="article">
+				<h3 id="id_blog_title" class="article_title" style="font-size: 1.2em;">
+					{{if eq .action "add"}}新增{{else}}编辑{{end}} 博客类型:
+				</h3>
+				
+				<div class="article_summary">
+					<form method="POST" {{if eq .action "add"}}action="/admin/category/add"{{else}}action="/admin/category/{{.category.Id}}/edit"{{end}} >
+					<table class="table_admin_edit">
+							<tr>
+								<td class="r">名称<span class="flag_required">*</span>：</td>
+								<td class="l">
+									<input type="text" id="id_name" name="category.Name" value="{{.category.Name}}"/>	  
+									
+								</td>
+							</tr>
+							
+							<tr>
+								<td class="r">介绍<span class="flag_required">*</span>：</td>
+								<td class="l">
+									<textarea id="id_intro" name="category.Intro" style="width:90%;height:15em;">{{.category.Intro}}</textarea>
+									
+								</td>
+							</tr>
+							<tr>
+								<td class="r">排序<span class="flag_required">*</span>：</td>
+								<td class="l">
+									<input type="text" id="id_seq" name="category.Seq" value="{{.category.Seq}}"/>	  
+									
+								</td>
+							</tr>
+							<tr>
+								<td class="r">状态<span class="flag_required">*</span>：</td>
+								<td class="l">
+									<select id="id_status" name="category.Status">
+										<option value="true" {{if .category.Status}}selected="selected"{{end}}>有效</option>
+										<option value="false" {{if eq .category.Status false}}selected="selected"{{end}}>无效</option>
+									</select>  
+									
+								</td>
+							</tr>
+							
+							
+							<tr>
+								<td>&nbsp;</td>
+								<td>
+									<input type="submit" value="提交" onclick="return checkForm()" /> 
+									<a href="/admin/category/list">返回</a>
+									<span id="id_msg" class="flag_required"></span>
+									{{if .flashes}}
+						        	<span class="msg">{{range .flashes}}{{.}}{{end}}</span>
+						        {{end}}
+
+									<input type="hidden" name="category.Id" value="{{.category.Id}}"> 
+									<input type="hidden" name="category.Created" value="{{timeFormat .category.Created .timefmt}}"> 
+									<input type="hidden" name="category.Updated" value="{{timeFormat .category.Updated .timefmt}}"> 
+								</td>
+							</tr>
+  					</table>
+				</form>
+				</div>
+
+				<script type="text/javascript">
+			  function checkForm(){
+			    var id_name = $("#id_name");
+			    var id_seq = $("#id_seq");
+			    var id_status= $("#id_status");
+			    var id_intro = $("#id_intro");
+			  	
+			    var id_msg =  $("#id_msg");
+
+
+			    id_msg.html("");
+
+			    if(id_name.val()==""){
+			      id_name.focus();
+			      id_msg.html("请填写类别名称！");
+			      return false;
+			    }
+
+			    if(id_seq.val()==""){
+			      id_seq.focus();
+			      id_msg.html("请填写排序");
+			      return false;
+			    }
+
+			    if(!isNum(id_seq.val())){
+			      id_seq.focus();
+			      id_msg.html("请填写正整数的排序！");
+			      return false;
+			    }
+			    
+			    if(id_intro.val()==""){
+			      id_intro.focus();
+			      id_msg.html("请填写类别介绍!");
+			      return false;
+			    }
+
+			    if(id_status.val()==""){
+			      id_status.focus();
+			      id_msg.html("请选择状态!");
+			      return false;
+			    }
+
+			    return true;
+			  }
+
+			  function isNum(num){
+			  	var re = /^[0-9]+.?[0-9]*$/;   //判断字符串是否为数字    
+			  	 //判断正整数 /^[1-9]+[0-9]*]*$/  					    
+			    if (re.test(num))
+			    {
+			        return true;
+			    }
+			    return false;
+			  }
+					
+			</script>
+			  
+				
+			</div>
+
+		</div>
+
+	</div>
+	{{template "admin/sider_bar" .}}
+</div>

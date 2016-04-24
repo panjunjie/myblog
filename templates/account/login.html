@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>博客管理--登录</title>
+    <meta charset="utf-8"/> 
+    <link rel="shortcut icon" href="/static/images/favicon.ico">
+  <style type="text/css" media="screen">
+      body{
+        font-family:"微软雅黑","新宋体";
+      }
+      .box{
+        margin:10% auto;
+        padding:0px 50px;
+        border:10px solid #eee;
+
+        width:450px;
+        height:310px;
+      }
+
+      .btn_p{
+        text-align:right;
+      }
+
+      form p{
+        margin:0;
+        padding:0;
+        line-height:160%;
+      }
+
+      form p label{
+        display:block;
+      }
+
+      form p input[type='text'],form p input[type='password'] {
+        padding:8px 4px;
+        width:97.5%;
+      }
+
+       form p input[type='submit'],form p input[type='reset'] {
+        padding:7px 16px;
+      }
+
+      .msg{
+        color:red;
+      }
+
+    </style>
+</head>
+<body>
+
+  <div class="box">
+    <form action="/account/login" method="post" accept-charset="utf-8">
+      <h1>博客管理--登录</h1>
+      <p>
+        <label>账号：</label>
+        <input type="text" id="id_username" name="username" autocomplete="off" placeholder="输入用户名或邮箱" AUTOCOMPLETE="off" /></p>
+      <br>
+      <p>
+        <label>密码：</label>
+        <input type="password" id="id_password" name="password" placeholder="输入登录密码" AUTOCOMPLETE="off"/></p>
+      <br>
+      <p class="btn_p">
+        <span id="id_msg" class="msg"></span>
+        {{if .flashes}}
+        <span class="msg">{{range .flashes}}{{.}}{{end}}</span>
+        {{end}}
+        <input type="submit" value="登录" onclick="return checkLogin()">
+        &nbsp;
+        <input type="reset" value="重置">
+        <a href="/">[首页]</a>
+        </p>
+        <input type="hidden" name="next" value="{{.next}}"/>
+    </form>
+  </div>
+
+</body>
+
+  <script type="text/javascript" src="/static/js/jquery-1.11.3.min.js"></script>
+  <script type="text/javascript">
+
+  $(function(){
+    $("#id_username").focus();
+  });
+ 
+  function checkLogin(){
+     var msg = $("#id_msg")
+    if($("#id_username").val()==''){
+      $("#id_username").focus();
+      msg.html("请输入用户名或邮箱");
+       return false;
+    }
+
+     if($("#id_password").val()==''){
+      $("#id_password").focus();
+      msg.html("请输入账号密码");
+      return false;
+    }
+  }
+  </script>
+
+</html>

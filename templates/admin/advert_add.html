@@ -1,0 +1,88 @@
+<div class="container clearfix">
+
+	<div class="content contentAdmin">
+		<div class="flow flowAdmin">
+
+			<div class="article">
+				<h3 id="id_blog_title" class="article_title" style="font-size: 1.2em;">
+					广告设置:
+				</h3>
+
+				<div class="article_summary">
+					<form method="POST" action="/admin/advert/edit">
+					<table class="table_admin_edit">							
+							<tr>
+								<td class="r" style="width: 22%;">网站验证 Meta：</td>
+								<td class="l">
+									<input type="text" id="id_metalink" name="advert.MetaLink" placeholder="广告联盟验证 meta" value="{{.advert.MetaLink}}"/>
+									<br/><span>广告联盟验证 meta </span>
+								</td>
+							</tr>
+
+							<tr>
+								<td class="r">广告位1：</td>
+								<td class="l">
+									<textarea id="id_ad1" name="advert.Ad1" placeholder="广告脚本" style="width:90%;height:150px;">{{.advert.Ad1}}</textarea>
+									<br/><span>头部顶部广告 468*60 像素</span>
+								</td>
+							</tr>
+
+							<tr>
+								<td class="r">广告位2：</td>
+								<td class="l">
+									<textarea id="id_ad2" name="advert.Ad2" placeholder="广告脚本" style="width:90%;height:150px;">{{.advert.Ad2}}</textarea>
+									<br/><span>首页右侧 250*250 像素</span>
+								</td>
+							</tr>
+
+							<tr>
+								<td class="r">广告位3：</td>
+								<td class="l">
+									<textarea id="id_ad3" name="advert.Ad3" placeholder="广告脚本" style="width:90%;height:150px;">{{.advert.Ad3}}</textarea>
+									<br/><span>详情页底部 250*250 像素</span>
+								</td>
+							</tr>
+
+							<tr>
+								<td class="r">广告位4：</td>
+								<td class="l">
+									<textarea id="id_ad4" name="advert.Ad4" placeholder="广告脚本" style="width:90%;height:150px;">{{.advert.Ad4}}</textarea>
+									<br/><span>详情右侧 250*250 像素</span>
+								</td>
+							</tr>
+
+							<tr>
+								<td class="r">广告位5：</td>
+								<td class="l">
+									<textarea id="id_ad5" name="advert.Ad5" placeholder="广告脚本" style="width:90%;height:150px;">{{.advert.Ad5}}</textarea>
+									<br/><span>备用位 250*250 像素</span>
+								</td>
+							</tr>
+
+							<tr>
+								<td>&nbsp;</td>
+								<td>
+									<input type="submit" value="提交"/>
+									<span id="id_msg" class="flag_required"></span>
+									{{if .flashes}}
+						        	<span class="msg">{{range .flashes}}{{.}}{{end}}</span>
+						        	{{end}}
+									<input type="hidden" name="advert.Id" value="{{.advert.Id}}"> 		
+									<input type="hidden" name="advert.Created" value="{{timeFormat .advert.Created .timefmt}}"> 
+									<input type="hidden" name="advert.Updated" value="{{timeFormat .advert.Updated .timefmt}}"> 
+								</td>
+							</tr>
+  					</table>
+				</form>
+				</div>
+
+				<script type="text/javascript">
+				</script>			  
+				
+			</div>
+
+		</div>
+
+	</div>
+	{{template "admin/sider_bar" .}}
+</div>

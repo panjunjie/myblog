@@ -1,0 +1,156 @@
+	  <div class="container clearfix">
+
+	  	<div class="content">
+	  		<div class="flow">
+
+	  			<div class="article">
+	  				<h3 id="id_blog_title" class="article_title" style="font-size: 1.2em;">
+	  					<a href="/article/detail/{{.article.Id}}">{{.article.Title}}</a>
+	  				</h3>
+
+	  				<div class="toolBar" style="line-height:220%;">
+	  					{{$username := .account.UserName}}
+		  				{{if eq .article.Origin ""}}发表{{else}}转载{{end}} {{timeFormat .article.Created "2006-01-02 15:04:05"}} 
+	  					<!-- <a href="/about">{{$username}}</a> -->
+	  					<a href="javascript:void(0);">阅读({{.article.Read}})</a>
+	  					<a href="/article/detail/{{.article.Id}}#comment">评论({{.article.CommentCount}})</a>
+
+	  					<a href="javascript:;" onclick="praise('{{.article.Id}}')">赞(<span id="id_up_count_{{.article.Id}}">{{.article.UpCount}}</span>)</a>
+
+	  					{{if .logined}}
+		  					<a href="/admin/article/{{.article.Id}}/edit">[编辑]</a>
+		  					<a href="/article/{{.article.Id}}/disable" onclick="return confirm('确定移除博客吗？')">[移除]</a>
+		  				{{end}}
+	  				</div>
+
+	  				<div class="article_summary">
+	  					{{html .article.Content}}
+	  				</div>
+
+	  				{{if ne .article.Origin ""}}
+	  				<div class="origin">
+	  					原文出处：
+	  					<a href="{{.article.Origin}}">{{.article.Origin}}</a>
+	  				</div>
+	  				{{end}}	
+
+	  				<div class="shareBar clearfix">
+						<div id="ckepop">
+							<a href="http://www.jiathis.com/share/" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank">分享到：</a>
+							<a class="jiathis_button_tools_1"></a>
+							<a class="jiathis_button_tools_2"></a>
+							<a class="jiathis_button_tools_3"></a>
+							<a class="jiathis_button_tools_4"></a>
+						</div>
+					</div>
+					
+					{{if .settings.Donate}}
+					<div class="donateBar clearfix">		
+						<div style="width:33%;float:left;">
+							<img src="{{.settings.Donate}}" alt="Donate" style="width:250px;" />
+						</div>
+						<div style="width:33%;float:right;text-align:right">
+							{{if .advert}}
+								{{html .advert.Ad3}}
+							{{end}}
+						</div>	
+						<div style="width:33%;float:right;text-align:right">
+							{{if .advert}}
+								{{html .advert.Ad3}}
+							{{end}}
+						</div>	
+					</div>
+					<p style="margin: 10px 0 5px 0;color:#777;font-size: 0.9em;">如果文章对您有帮助，请使用手机支付宝扫描二维码，捐赠X元，作者离不开读者的支持！</p>
+					{{end}}
+
+	  				<div id="comment" class="comment">
+	  					<div class="comment_head clearfix">
+	  						<div class="l">共 <span id="id_comment_count2">{{.commentCount}}</span> 条网友评论</div>
+	  						<div class="r">
+	  							<a href="#comment_submit">我要评论</a>
+	  						</div>
+	  					</div>
+
+	  					<div class="comment_content">
+	  						{{if .commentList }}
+								{{range $i,$v := .commentList}}
+			  						<div id="items{{$v.Id}}" class="items">
+			  							<p> <b>{{add $i 1}} 楼：</b>
+			  								{{if ne $v.UserId 0}}<a href="/about">{{$v.UserName}}(博主)</a>{{else}}{{$v.UserName}}{{end}} 发表于 {{timeFormat $v.Created "2006-01-02 15:04:05"}}
+			  								<a href="#comment_submit" onclick="reply_action('{{$v.UserName}}','{{$v.Id}}')">回复 TA</a>
+			  							</p>
+			  							{{if eq $v.RefContent ""}}
+			  								<div class="item">{{$v.Content}}</div>
+			  							{{else}}
+			  								<div class="item">{{html $v.RefContent}}{{$v.Content}}</div>
+			  							{{end}}
+			  							
+			  						</div>
+		  						{{end}}
+	  						{{else}}
+	  							<p class="no_comment">哇~~~ 竟然还没有评论！</p>
+	  						{{end}}
+	  					</div>
+
+	  					<div id="comment_submit" class="comment_submit">
+	  						<table>
+	  							<tr>
+	  								<td>称呼<span class="flag_required">*</span>：</td>
+	  								<td>
+	  									<input type="text" id="id_nickName" {{if .logined}}value="{{.account.UserName}}"{{end}}/>
+	  								</td>
+	  							</tr>
+	  							<tr>
+	  								<td>邮箱<span class="flag_required">*</span>：</td>
+	  								<td>
+	  									<input type="text" id="id_email" {{if .logined}}value="{{.account.Email}}"{{end}}/>
+	  									回复用途！
+	  								</td>
+	  							</tr>
+	  							<tr>
+	  								<td>内容<span class="flag_required">*</span>：</td>
+	  								<td>
+	  									<textarea id="id_content"></textarea>
+	  								</td>
+	  							</tr>
+	  							<tr>
+	  								<td>验证码<span class="flag_required">*</span>：</td>
+	  								<td>
+	  									<input type="text" id="id_vcode" name="vildCode" autocomplete="off" style="width:100px;" />
+	  								</td>
+	  							</tr>
+	  							<tr>
+	  								<td></td>
+	  								<td>
+	  									<a href="javascript:void(0);" onclick="reload()">
+	  										<img id="captcha_image" src="/captcha/{{.captchaId}}.png" alt="验证码" style="vertical-align: bottom;border: none;"></a> <a href="javascript:void(0);" onclick="reload()">看不清换张</a>
+	  								</td>
+	  							</tr>
+	  							<tr>
+	  								<td>&nbsp;</td>
+	  								<td>
+	  									<input type="button" value="提交" onclick="return checkCommentForm()" /> <span id="id_msg" class="flag_required"></span>	 
+	  									<input type="hidden" id="id_vcode_src" value="{{.captchaId}}"> 
+	  									<input type="hidden" id="id_articleId" value="{{.article.Id}}">
+	  									<input type="hidden" id="id_userId" {{if .logined}}value="{{.account.Id}}"{{else}}value="0"{{end}}>	  									
+	  									<input type="hidden" id="id_replyer"> 
+	  									<input type="hidden" id="id_reply_index">   
+	  									<input type="hidden" id="id_commentId">  
+	  									
+	  									<input type="hidden" id="id_comment_count" value="{{.commentCount}}">
+	  								</td>
+	  							</tr>
+	  						</table>
+
+	  					</div>
+
+	  				</div>
+
+	  			</div>
+
+	  		</div>
+			<script type="text/javascript" src="/static/js/plugins/prettify/run_prettify.js?autoload=true&skin=tomorrow" defer="defer"></script>
+			<script type="text/javascript" src="http://v2.jiathis.com/code/jia.js" charset="utf-8"></script>
+	  	</div>
+	  	{{template "parts/sider_bar" .}}
+	  </div>

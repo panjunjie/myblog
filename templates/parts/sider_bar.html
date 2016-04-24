@@ -1,0 +1,98 @@
+<div class="siderBar">
+
+{{if .account }}	
+	{{if gt .account.Id 0}}			
+	<div class="box">
+		{{template "parts/about_sample" .}}
+	</div>
+	{{end}}
+{{end}}
+
+
+{{if .categoryList }}
+{{if gt (len .categoryList) 0}}
+<div class="box">
+	<h2>博客分类</h2>
+	<ul>
+		{{range .categoryList}}
+		<li class="li_s" title="{{.Intro}}"><a href="/category/{{.Id}}">{{.Name}}({{.ItemCount}})</a></li>
+		{{end}}
+	</ul>
+</div>
+{{end}}
+{{end}}
+
+
+{{if .archiveList }}
+{{if gt (len .archiveList) 0}}
+<div class="box">
+	<h2>博客归档</h2>
+	<ul>
+		{{range .archiveList}}
+		<li class="li_s"><a href="/archives/{{.Param2}}/{{.Param3}}/">{{.Param1}}({{.Param4}})</a></li>
+		{{end}}
+	</ul>
+</div>
+{{end}}
+{{end}}
+
+{{if .newComment }}
+<!-- and 不能用 -->
+{{if gt (len .newComment) 0}}
+<div class="box">
+	<h2>最新评论</h2>
+	<ul>
+		{{range .newComment}}
+		<li>
+			<a class="commentLink" href="/article/detail/{{.Param1}}#items{{.Param4}}">回复：{{.Title1}}</a>
+			<p class="commentContent" title="{{.Title2}}">{{substring .Title2 72}}</p>
+			<p class="commentAuthor">{{.Param3}} {{.Param2}}</p>
+		</li>
+		{{end}}	  					
+	</ul>
+</div>
+{{end}}	  
+{{end}}	 
+
+{{if .hotArticles}}
+	{{if gt (len .hotArticles) 0}}
+	<div class="box">
+		<h2>热门博客</h2>
+		<ul>
+			{{range .hotArticles}}
+			<li><a href="/article/detail/{{.Param1}}">{{.Title1}}({{.Param2}})</a></li>
+			{{end}}
+		</ul>
+	</div>
+	{{end}}	  
+{{end}}	 
+
+{{if .recentView}}
+	{{if gt (len .recentView) 0}}
+	<div class="box">
+		<h2>最近浏览</h2>
+		<ul>
+			{{range .recentView}}
+			<li><a href="/article/detail/{{.Id}}">{{.Title}}</a></li>
+			{{end}}
+		</ul>
+	</div>
+	{{end}}	  
+{{end}}	 
+
+
+{{if .friendLinkList}}
+{{if gt (len .friendLinkList) 0}}
+<div class="box">
+	<h2>友情链接</h2>
+	<ul>
+		{{range .friendLinkList}}
+		<li class="li_s" title="{{.Intro}}"><a href="{{.Link}}" target="_blank">{{.Name}}</a></li>
+		{{end}}
+	</ul>
+	<p class="more"><a href="/friendlink">添加链接</a></p>
+</div>
+{{end}}	  
+{{end}}	 
+
+</div>

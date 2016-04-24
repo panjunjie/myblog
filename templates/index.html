@@ -1,0 +1,17 @@
+<div class="container clearfix">
+	<div class="content">
+		<div class="flow">
+		{{template "parts/article_list" .}}
+			{{if .articleList}}
+				{{if gt (len .articleList) 3}}
+				<div class="pager">
+					<a href="/article/2"><浏览更多></a>
+				</div>				
+				{{end}}	
+			{{else}}
+				<p>没有任何内容</p>			
+			{{end}}		  			
+		</div>
+	</div>
+	{{template "parts/sider_bar" .}}
+</div>

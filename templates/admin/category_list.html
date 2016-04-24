@@ -1,0 +1,59 @@
+<div class="container clearfix">
+	<div class="content contentAdmin">
+
+		<div class="flow flowAdmin">
+
+			<div class="article">		
+
+				<div class="admin_tools clearfix">
+
+					<div class="l">
+						<h3 style="font-size: 1em;">博客类型列表:</h3>
+					</div>
+
+					<div class="c">
+						<p>
+	  					{{if .flashes}}
+							<span class="msg">{{range .flashes}}{{.}}{{end}}</span>
+						{{end}}
+						</p>
+					</div>
+
+					<div class="r">						
+					</div>
+				</div>
+				
+				<div class="article_summary">
+				<table class="table_admin">
+							<tr>
+								<th style="width:8%;">编号</th>
+								<th>类别</th>
+								<th style="width:12%;">状态</th>
+								<th style="width:12%;">排序</th>
+								<th style="width:15%;" class="r">操作 <a href="/admin/category/add">[新增]</a></th>
+							</tr>
+							{{range $i,$v := .categoryList}}
+							<tr>
+								<td>{{$v.Id}}</td>
+								<td>{{$v.Name}}</td>
+								<td>{{if $v.Status}}有效{{else}}无效{{end}}</td>
+								<td>{{$v.Seq}}</td>
+								<td class="r">
+								<a href="/admin/category/{{$v.Id}}/edit">编辑</a>
+								<a href="/admin/category/{{$v.Id}}/del" onclick="return confirm('确定删除吗？')">删除</a>
+								</td>
+							</tr>
+							{{end}}
+					</table>
+				</div>
+
+				<script type="text/javascript">					  
+				</script>
+				
+			</div>
+
+		</div>
+
+	</div>
+	{{template "admin/sider_bar" .}}
+</div>

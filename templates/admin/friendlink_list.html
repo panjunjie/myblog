@@ -1,0 +1,66 @@
+<div class="container clearfix">
+	<div class="content contentAdmin">
+
+		<div class="flow flowAdmin">
+		
+			<div class="article">		
+
+				<div class="admin_tools clearfix">
+
+					<div class="l">
+						<h3 style="font-size: 1em;">友情链接列表:</h3>
+					</div>
+
+					<div class="c">
+						<p>
+	  					{{if .flashes}}
+							<span class="msg">{{range .flashes}}{{.}}{{end}}</span>
+						{{end}}
+						</p>
+					</div>
+
+					<div class="r">						
+					</div>
+				</div>
+				
+				<div class="article_summary">
+				<table class="table_admin">
+							<tr>
+								<th style="width:8%;">编号</th>
+								<th style="text-align:left;padding-left:15px;">博客名和简介</th>
+								<th style="width:25%;">添加时间</th>
+								<th style="width:22%;" class="r">操作<a href="/admin/friendlink/add">[新增]</a></th>
+							</tr>
+							{{range $i,$v := .friendLinkList}}
+							<tr>
+								<td>{{$v.Id}}</td>
+								<td style="text-align:left;padding-left:15px;">
+									<a href="{{$v.Link}}" target="_blank">{{$v.Name}}</a>：
+									<br/>
+									{{$v.Intro}}
+								</td>
+								<td>{{timeFormat $v.Created "2006-01-02 15:04"}}</td>
+								<td class="r">
+									<a href="/admin/friendlink/{{$v.Id}}/edit">[编辑]</a>
+									{{if $v.Status}}
+										<a href="/admin/friendlink/pass?id={{$v.Id}}&action=0">屏蔽</a>
+									{{else}}
+										<a href="/admin/friendlink/pass?id={{$v.Id}}&action=1">显示</a>										
+									{{end}}
+									<a href="/admin/friendlink/del?id={{$v.Id}}">[删除]</a>
+								</td>
+							</tr>
+							{{end}}
+					</table>
+				</div>
+
+				<script type="text/javascript">					  
+				</script>
+				
+			</div>
+
+		</div>
+
+	</div>
+	{{template "admin/sider_bar" .}}
+</div>

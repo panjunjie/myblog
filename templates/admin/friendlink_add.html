@@ -1,0 +1,136 @@
+<div class="container clearfix">
+
+	<div class="content contentAdmin">
+		<div class="flow flowAdmin">
+
+			<div class="article">
+				<h3 id="id_blog_title" class="article_title" style="font-size: 1.2em;">
+					{{if eq .action "add"}}新增{{else}}编辑{{end}} 友情链接:
+				</h3>
+				
+				<div class="article_summary">
+					<form method="POST" {{if eq .action "add"}}action="/admin/friendlink/add"{{else}}action="/admin/friendlink/{{.friendlink.Id}}/edit"{{end}} >
+					<table class="table_admin_edit">
+							<tr>
+								<td class="r">网站名<span class="flag_required">*</span>：</td>
+								<td class="l">
+									<input type="text" id="id_name" name="friendlink.Name" value="{{.friendlink.Name}}"/>	  
+									
+								</td>
+							</tr>
+
+							<tr>
+								<td class="r">链接<span class="flag_required">*</span>：</td>
+								<td class="l">
+									<input type="text" id="id_link" name="friendlink.Link" value="{{.friendlink.Link}}"/>	  
+									
+								</td>
+							</tr>
+							
+							<tr>
+								<td class="r">介绍：</td>
+								<td class="l">
+									<textarea id="id_intro" name="friendlink.Intro" style="width:90%;height:15em;">{{.friendlink.Intro}}</textarea>
+								</td>
+							</tr>
+							
+							<tr>
+								<td class="r">状态<span class="flag_required">*</span>：</td>
+								<td class="l">
+									<select id="id_status" name="friendlink.Status">
+										<option value="true" {{if .friendlink.Status}}selected="selected"{{end}}>有效</option>
+										<option value="false" {{if eq .friendlink.Status false}}selected="selected"{{end}}>无效</option>
+									</select>  
+									
+								</td>
+							</tr>
+							
+							
+							<tr>
+								<td>&nbsp;</td>
+								<td>
+									<input type="submit" value="提交" onclick="return checkForm()" /> 
+									<a href="/admin/friendlink/list">返回</a>
+									<span id="id_msg" class="flag_required"></span>
+									{{if .flashes}}
+						        	<span class="msg">{{range .flashes}}{{.}}{{end}}</span>
+						       		{{end}}
+
+									<input type="hidden" name="friendlink.Id" value="{{.friendlink.Id}}">
+									<input type="hidden" name="friendlink.Read" value="{{.friendlink.Read}}"> 
+									<input type="hidden" name="friendlink.Created" value="{{timeFormat .friendlink.Created .timefmt}}"> 
+									<input type="hidden" name="friendlink.Updated" value="{{timeFormat .friendlink.Updated .timefmt}}"> 
+								</td>
+							</tr>
+  					</table>
+				</form>
+				</div>
+
+				<script type="text/javascript">
+			  function checkForm(){
+			    var id_name = $("#id_name");
+			    var id_link = $("#id_link");
+			    var id_status= $("#id_status");
+			  	
+			    var id_msg =  $("#id_msg");
+
+
+			    id_msg.html("");
+
+			    if(id_name.val()==""){
+			      id_name.focus();
+			      id_msg.html("请填写博客名！");
+			      return false;
+			    }
+
+			    if(id_link.val()==""){
+			      id_link.focus();
+			      id_msg.html("请填写链接！");
+			      return false;
+			    }
+
+			    if(!isURL(id_link.val())){
+			      id_link.focus();
+			      id_msg.html("链接格式有误！");
+			      return false;
+			    }
+
+			    if(id_status.val()==""){
+			      id_status.focus();
+			      id_msg.html("请选择状态!");
+			      return false;
+			    }
+
+			    return true;
+			  }
+
+			  function isURL(str){
+				var strRegex = '^((https|http|ftp|rtsp|mms)?://)' 
+						+ '?(([0-9a-z_!~*\'().&=+$%-]+: )?[0-9a-z_!~*\'().&=+$%-]+@)?' //ftp的user@ 
+						+ '(([0-9]{1,3}.){3}[0-9]{1,3}' // IP形式的URL- 199.194.52.184 
+						+ '|' // 允许IP和DOMAIN（域名） 
+						+ '([0-9a-z_!~*\'()-]+.)*' // 域名- www. 
+						+ '([0-9a-z][0-9a-z-]{0,61})?[0-9a-z].' // 二级域名 
+						+ '[a-z]{2,6})' // first level domain- .com or .museum 
+						+ '(:[0-9]{1,4})?' // 端口- :80 
+						+ '((/?)|' // a slash isn't required if there is no file name 
+						+ '(/[0-9a-z_!~*\'().;?:@&=+$,%#-]+)+/?)$'; 
+
+				var re=new RegExp(strRegex); 						
+				if (re.test(str)) { 
+					return true; 
+				} else { 
+					return false; 
+				} 
+			}
+					
+			</script>
+			  
+				
+			</div>
+
+		</div>
+
+	</div>
+	{{template "admin/sider_bar" .}}
+</div>

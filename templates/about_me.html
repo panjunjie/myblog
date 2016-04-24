@@ -1,0 +1,99 @@
+<div class="container clearfix">
+
+	<div class="content">
+		<div class="flow">
+
+			<div class="article">
+				<div class="article_summary" style="margin:0 0 4em 0;">
+					{{html .account.Intro}}
+				</div>
+
+				<p>作者最后一次登录：{{timeFormat .account.LastLogin "2006-01-02 15:04:05"}}</p>
+				
+				<div id="comment" class="comment">
+					<div class="comment_head clearfix">
+						<div class="l">共 <span>{{.msgCount}}</span> 条网友留言</div>
+						<div class="r">
+							<a href="#msg_submit">给博主留言</a>
+						</div>
+					</div>
+
+					<div class="comment_content">
+						{{$logined := .logined}}
+						{{if .msgList }}
+						{{range $i,$v := .msgList}}
+						<div id="items{{add $i 1}}" class="items">
+							<p> <b>{{add $i 1}} 楼：</b>
+								{{$v.UserName}} 留言于 {{timeFormat $v.Created "2006-01-02 15:04:05"}} 
+								{{if $logined}}<a href="javascript:;" onclick="reply_mymsg_action('{{$v.UserName}}','{{$v.Id}}')">回复 TA</a>{{end}}
+							</p>
+							<div class="item">{{html $v.RefContent}}{{$v.Content}}</div>
+						</div>
+						{{end}}
+						{{else}}
+							<p class="no_comment">暂无留言！</p>
+						{{end}}
+					</div>
+
+					<div id="msg_submit" class="comment_submit">
+						<form action="/about" method="POST">
+						<table>
+							<tr>
+								<td>称呼<span class="flag_required">*</span>：</td>
+								<td>
+									<input type="text" id="id_nickName" name="username" {{if .logined}}value="{{.account.UserName}}"{{end}}/>
+								</td>
+							</tr>
+							<tr>
+								<td>邮箱<span class="flag_required">*</span>：</td>
+								<td>
+									<input type="text" id="id_email" name="email" {{if .logined}}value="{{.account.Email}}"{{end}}/>
+									回复用途！
+								</td>
+							</tr>
+							<tr>
+								<td>留言<span class="flag_required">*</span>：</td>
+								<td>
+									<textarea id="id_content" name="content"></textarea>
+								</td>
+							</tr>
+							<tr>
+								<td>验证码<span class="flag_required">*</span>：</td>
+								<td>
+									<input type="text" id="id_vcode" name="vildCode" style="width:100px;" />
+								</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>
+									<a href="javascript:void(0);" onclick="reload()">
+										<img id="captcha_image" src="/captcha/{{.captchaId}}.png" alt="验证码" style="vertical-align: bottom;border: none;"></a> <a href="javascript:void(0);" onclick="reload()">看不清换另一张</a>
+								</td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td>
+									<input type="submit" value="提交" onclick="return checkAboutMeForm()" /> 
+									<span id="id_msg" class="flag_required"></span>
+									{{if .flashes}}
+							        <span class="msg">{{range .flashes}}{{.}}{{end}}</span>
+							        {{end}}
+									<input type="hidden" name="vcodeSrc" value="{{.captchaId}}">
+									<input type="hidden" id="id_replyId" name="replyid">  
+								</td>
+							</tr>
+						</table>
+
+						</form>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+	{{template "parts/sider_bar" .}}
+</div>

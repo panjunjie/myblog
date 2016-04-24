@@ -1,0 +1,191 @@
+<div class="container clearfix">
+
+	<div class="content contentAdmin">
+		<div class="flow flowAdmin">
+
+			<div class="article">
+				<h3 id="id_blog_title" class="article_title" style="font-size: 1.2em;">
+					博客设置:
+				</h3>
+
+				<div class="article_summary">
+					<form method="POST" action="/admin/settings/edit" enctype="multipart/form-data">
+					<table class="table_admin_edit">							
+							<tr>
+								<td class="r" style="width: 15%;">博客名<span class="flag_required">*</span>：</td>
+								<td class="l">
+									<input type="text" id="id_blogname" name="settings.BlogName" placeholder="博客名很重要" value="{{.settings.BlogName}}"/>	  
+									<span class="flag_required">*</span>
+								</td>
+							</tr>
+
+							<tr>
+								<td class="r">博客介绍<span class="flag_required">*</span>：</td>
+								<td class="l">
+									<textarea id="id_blogintro" name="settings.BlogIntro"  placeholder="博客简介很重要" style="width:90%;height:330px;">{{.settings.BlogIntro}}</textarea>
+								</td>
+							</tr>
+
+							<tr>
+								<td class="r">发送邮件 STMP<span class="flag_required">*</span>：</td>
+								<td class="l">
+									<input type="text" id="id_emailsmtp" name="settings.EmailSmtp" placeholder="发送email的服务器" value="{{.settings.EmailSmtp}}"/>	  
+									<br/><span>若评论需要发送email，请填写此项。</span>
+								</td>
+							</tr>
+
+							<tr>
+								<td class="r">发送邮件 STMP<span class="flag_required">*</span>：</td>
+								<td class="l">
+									<input type="text" id="id_emailsmtpport" name="settings.EmailSmtpPort" placeholder="发送email的服务器" value="{{.settings.EmailSmtpPort}}"/> 
+									<br/><span>若评论需要发送email，请填写此项。</span>
+								</td>
+							</tr>
+
+							<tr>
+								<td class="r">发送邮件账号<span class="flag_required">*</span>：</td>
+								<td class="l">
+									<input type="text" id="id_emailsender" name="settings.EmailSender" placeholder="发送邮件用途" value="{{.settings.EmailSender}}"/>
+									<br/><span>若评论需要发送email，请填写此项。</span>	  
+								</td>
+							</tr>
+
+							<tr>
+								<td class="r">发送邮件密码<span class="flag_required">*</span>：</td>
+								<td class="l">
+									<input type="password" id="id_emailpwd" name="settings.EmailPwd" placeholder="发送邮件账号密码" value="{{.settings.EmailPwd}}"/>
+									<br/><span>若评论需要发送email，请填写此项。</span>	  
+								</td>
+							</tr>
+
+							<tr>
+								<td class="r">Favicon：</td>
+								<td class="l">
+									<input type="file" id="id_faviconFile" name="faviconFile">
+									<br/>
+									<span>{{.settings.Favicon}}</span>
+								</td>
+							</tr>
+
+							
+							<tr>
+								<td class="r">捐赠码：</td>
+								<td class="l">
+									<input type="file" id="id_donateFile" name="donateFile">
+									<br/>
+									<img src="{{.settings.Donate}}" onError="this.src='/static/images/donateforme.png'" style="width:250px;">
+								</td>
+							</tr>
+
+							<tr>
+								<td class="r">版权组织<span class="flag_required">*</span>：</td>
+								<td class="l">
+									<input type="text" id="id_org" name="settings.Org" placeholder="版权归哪个组织拥有" value="{{.settings.Org}}"/>	
+								</td>
+							</tr>
+
+							<tr>
+								<td class="r">ICP 备案号：</td>
+								<td class="l">
+									<input type="text" id="id_icpno" name="settings.ICPNO" placeholder="ICP 备案号" value="{{.settings.ICPNO}}"/>	
+								</td>
+							</tr>
+							
+							
+							<tr>
+								<td>&nbsp;</td>
+								<td>
+									<input type="submit" value="提交" onclick="return checkForm()" />
+									<span id="id_msg" class="flag_required"></span>
+									{{if .flashes}}
+						        	<span class="msg">{{range .flashes}}{{.}}{{end}}</span>
+						        	{{end}}
+									<input type="hidden" name="settings.Id" value="{{.settings.Id}}"> 
+									<input type="hidden" id="id_favicon" name="settings.Favicon" value="{{.settings.Favicon}}">
+									<input type="hidden" id="id_donate" name="settings.Donate" value="{{.settings.Donate}}">
+									
+									<input type="hidden" name="settings.Created" value="{{timeFormat .settings.Created .timefmt}}"> 
+									<input type="hidden" name="settings.Updated" value="{{timeFormat .settings.Updated .timefmt}}"> 
+								</td>
+							</tr>
+  					</table>
+				</form>
+				</div>
+
+				<script charset="utf-8" src="/static/js/plugins/kindeditor-4.1.10/kindeditor-all-min.js"></script>
+				<script charset="utf-8" src="/static/js/plugins/kindeditor-4.1.10/lang/zh_CN.js"></script>
+
+				<script type="text/javascript">
+
+				KindEditor.ready(function(K) {              
+				  window.editor = K.create("#id_blogintro",{
+					  	uploadJson : '/admin/kindeditor/upload',
+					    fileManagerJson : '/admin/kindeditor/file/manager',
+					    allowFileManager : true,
+					    afterBlur: function(){this.sync();}
+					});
+				});
+
+				  function checkForm(){
+				    var id_blogname = $("#id_blogname");
+				    var id_blogintro = $("#id_blogintro");
+				    var id_emailsmtp = $("#id_emailsmtp");
+				    var id_emailsmtpport = $("#id_emailsmtpport");
+				    var id_emailsender = $("#id_emailsender");
+				    var id_emailpwd = $("#id_emailpwd");
+				    var id_msg =  $("#id_msg");
+
+
+				    id_msg.html("");
+
+				    if(id_blogname.val()==""){
+				      id_blogname.focus();
+				      id_msg.html("请填写博客名！");
+				      return false;
+				    }
+
+				    if(id_emailsmtp.val()!=""){
+				    	if(id_emailsmtpport.val()==""){
+						      id_emailsmtpport.focus();
+						      id_msg.html("请填写 smtp 端口号！");
+						      return false;
+						 }
+				    	 if(id_emailsender.val()==""){
+						      id_emailsender.focus();
+						      id_msg.html("请填写发送邮件账号！");
+						      return false;
+						 }
+
+						 if(id_emailpwd.val()==""){
+						      id_emailpwd.focus();
+						      id_msg.html("请填写发送邮件密码！");
+						      return false;
+						 }
+				    }
+
+				    if(id_email.val()!=""){
+				      if(!isEmail(id_email.val())){
+					      id_email.focus();
+					      id_msg.html("邮件账号格式有误！");
+					      return false;
+					    }
+				    }
+
+				    return true;
+				  }
+
+				  function isEmail(str){ 
+					var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/; 
+					return reg.test(str); 
+				  }
+
+					
+			</script>			  
+				
+			</div>
+
+		</div>
+
+	</div>
+	{{template "admin/sider_bar" .}}
+</div>

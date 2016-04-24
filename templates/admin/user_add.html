@@ -1,0 +1,166 @@
+<div class="container clearfix">
+
+	<div class="content contentAdmin">
+		<div class="flow flowAdmin">
+
+			<div class="article">
+				<h3 id="id_blog_title" class="article_title" style="font-size: 1.2em;">
+					编辑 我的账号:
+				</h3>
+
+				<div class="article_summary">
+					<form method="POST" action="/admin/user/edit" enctype="multipart/form-data">
+					<table class="table_admin_edit">							
+							<tr>
+								<td class="r" style="width:12%;">用户名<span class="flag_required">*</span>：</td>
+								<td class="l">
+									<input type="text" id="id_username" name="account.UserName" placeholder="登录用户" value="{{.account.UserName}}"/>
+									<br/><span>登录用户</span>
+								</td>
+							</tr>
+
+							<tr>
+								<td class="r">登录密码<span class="flag_required">*</span>：</td>
+								<td class="l">
+									<input type="password" name="account.Password" placeholder="不填将保留原密码"/>	
+									<br/><span>登录密码</span>
+								</td>
+							</tr>
+
+							<tr>
+								<td class="r">邮箱<span class="flag_required">*</span>：</td>
+								<td class="l">
+									<input type="text" id="id_email" name="account.Email" placeholder="回复评论用,建议qq邮箱" value="{{.account.Email}}"/>
+									<br/><span>登录邮箱</span>
+								</td>
+							</tr>
+
+							<tr>
+								<td class="r">个性签名<span class="flag_required">*</span>：</td>
+								<td class="l">
+									<textarea id="id_sign" name="account.Sign" style="width:90%;height:60px;" placeholder="该字段每页都显示比较重要，控制 200 字以内">{{.account.Sign}}</textarea>									
+								</td>
+							</tr>
+
+							<tr>
+								<td class="r">性别：</td>
+								<td class="l">
+									<select name="account.Sex">
+										<option value="1" {{if eq .account.Sex 1}}selected="selected"{{end}}>男性</option>
+										<option value="0" {{if eq .account.Sex 0}}selected="selected"{{end}}>女性</option>
+									</select>  
+								</td>
+							</tr>
+
+							<tr>
+								<td class="r">个人简历<span class="flag_required">*</span>：</td>
+								<td class="l">
+									<textarea id="id_intro" name="account.Intro" style="width:90%;height:500px;">{{.account.Intro}}</textarea>
+									
+								</td>
+							</tr>
+
+							<tr>
+								<td class="r">头像<span class="flag_required">*</span>：</td>
+								<td class="l">
+									<input type="file" id="id_hathead" name="hathead">									
+									<br/>
+									<img src="{{.account.Image}}" onError="this.src='/static/images/default_img.jpg'">
+								</td>
+							</tr>
+
+
+							
+							
+							<tr>
+								<td>&nbsp;</td>
+								<td>
+									<input type="submit" value="提交" onclick="return checkForm()" />
+									<span id="id_msg" class="flag_required"></span>
+									{{if .flashes}}
+						        	<span class="msg">{{range .flashes}}{{.}}{{end}}</span>
+						        	{{end}}
+									<input type="hidden" name="account.Id" value="{{.account.Id}}"> 
+									<input type="hidden" id="id_image" name="account.Image" value="{{.account.Image}}">
+									<input type="hidden" name="account.Status" value="{{.account.Status}}"> 
+									<input type="hidden" name="account.LastLogin" value="{{timeFormat .account.LastLogin .timefmt}}">
+									<input type="hidden" name="account.Created" value="{{timeFormat .account.Created .timefmt}}"> 
+									<input type="hidden" name="account.Updated" value="{{timeFormat .account.Updated .timefmt}}"> 
+								</td>
+							</tr>
+  					</table>
+				</form>
+				</div>
+
+				<script charset="utf-8" src="/static/js/plugins/kindeditor-4.1.10/kindeditor-all-min.js"></script>
+				<script charset="utf-8" src="/static/js/plugins/kindeditor-4.1.10/lang/zh_CN.js"></script>
+
+				<script type="text/javascript">
+
+				KindEditor.ready(function(K) {              
+				  window.editor = K.create("#id_intro",{
+					  	uploadJson : '/admin/kindeditor/upload',
+					    fileManagerJson : '/admin/kindeditor/file/manager',
+					    allowFileManager : true
+					});
+				});
+
+				  function checkForm(){
+				    var id_username = $("#id_username");
+				    var id_email = $("#id_email");
+				    var id_sign = $("#id_sign");
+				  	var id_image = $("#id_image");
+				    var id_msg =  $("#id_msg");
+
+
+				    id_msg.html("");
+
+				    if(id_username.val()==""){
+				      id_title.focus();
+				      id_msg.html("请填写用户名！");
+				      return false;
+				    }
+
+				    if(id_image.val()=="" && $("#id_hathead").val()==""){
+				      id_msg.html("请选择头像上传！");
+				      return false;
+				    }
+
+				    if(id_email.val()==""){
+				      id_email.focus();
+				      id_msg.html("请填写邮箱！");
+				      return false;
+				    }
+
+				    if(!isEmail(id_email.val())){
+				      id_email.focus();
+				      id_msg.html("邮箱格式有误！");
+				      return false;
+				    }
+
+				    if(id_sign.val()==""){
+				      id_sign.focus();
+				      id_msg.html("请填写个性签名！");
+				      return false;
+				    }
+
+
+				    return true;
+				  }
+
+				  function isEmail(str){ 
+					var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/; 
+					return reg.test(str); 
+				  }
+
+					
+			</script>
+			  
+				
+			</div>
+
+		</div>
+
+	</div>
+	{{template "admin/sider_bar" .}}
+</div>

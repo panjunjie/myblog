@@ -1,0 +1,84 @@
+<div class="container clearfix">
+
+<div class="content contentAdmin">
+<div class="flow flowAdmin">
+
+	<div class="article">				
+
+		<form method="GET" action="/admin/article/list"> 
+			<div class="admin_tools clearfix">
+				<div class="l">
+					<h3 style="font-size: 1em;">博客列表:</h3>
+				</div>
+
+				<div class="c">
+					<p>
+  					{{if .flashes}}
+						<span class="msg">{{range .flashes}}{{.}}{{end}}</span>
+					{{end}}
+					</p>
+				</div>
+
+				<div class="r">
+					<input type="search" results="s" placeholder="后台搜索" name="q" title="搜索" value="{{.q2}}"/>
+				</div>
+			</div>
+			
+		
+			<div class="article_summary" style="font-size: 0.9em;">
+			<table class="table_admin">
+					<tr>
+						<th style="width:8%;">编号</th>
+						<th>标题</th>
+						<th style="width:10%;">浏览数</th>
+						<th style="width:7%;">状态</th>
+						<th style="width:20%;">新增时间</th>
+						<th style="width:15%;" class="r">操作 <a href="/admin/article/add">[新增]</a></th>
+					</tr>
+					{{range $i,$v := .articleList}}
+					<tr>
+						<td>{{$v.Id}}</td>
+						<td><a href="/article/detail/{{$v.Id}}">{{$v.Title}}</a></td>
+						<td>{{$v.Read}}</td>
+						<td>{{if $v.Status}}有效{{else}}无效{{end}}</td>
+						<td>{{timeFormat $v.Created "2006-01-02 15:04"}}</td>
+						<td class="r">
+						<a href="/admin/article/{{$v.Id}}/edit">编辑</a>
+						<a href="/admin/article/{{$v.Id}}/del" onclick="return confirm('此操作无法恢复，确定删除吗？')">删除</a>
+						</td>
+					</tr>
+					{{end}}
+			</table>
+
+			<p>
+				{{if gt .pager.TotalCount 0}}
+  			<div class="pager"> 第 {{.pager.CurrentPage}} 页 共 {{.pager.TotalPage}} 页 共 {{.pager.TotalCount}} 条记录
+  				{{if.pager.HasPrev}}
+  				<a href="/admin/article/list?page={{.pager.PrevPage}}">上一页</a>
+  				{{end}}
+  				{{if.pager.HasNext}}
+  				<a href="/admin/article/list?page={{.pager.NextPage}}">下一页</a>
+  				{{end}}
+  			</div>
+  			{{else}}
+  				<p>没有任何文章</p>
+  			{{end}}
+			</p>
+
+			
+
+		</div>
+
+		</form>
+
+		<script type="text/javascript">
+			 
+	</script>
+		
+	</div>
+
+</div>
+
+</div>
+{{template "admin/sider_bar" .}}
+</div>

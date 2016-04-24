@@ -1,0 +1,16 @@
+{{$username := .account.UserName}}
+{{$logined := .logined}}
+{{range $i,$v := .articleList }}			
+<div class="article">
+	<h3 class="article_title"><a href="/article/detail/{{$v.Id}}">{{$v.Title}}</a></h3>
+	<div class="article_summary">{{substring $v.Content 310}} ... <a href="/article/detail/{{$v.Id}}">阅读全文</a></div>
+	<div class="toolBar">
+	{{if eq $v.Origin ""}}发表{{else}}转载{{end}}于 {{timeFormat $v.Created "2006-01-02 15:04:05"}} <!-- <a href="/about">{{$username}}</a> --> <a href="/article/detail/{{$v.Id}}">阅读({{$v.Read}})</a> <a href="/article/detail/{{$v.Id}}#comment">评论({{$v.CommentCount}})</a> 
+	<a href="javascript:;" onclick="praise('{{$v.Id}}')">赞(<span id="id_up_count_{{$v.Id}}">{{$v.UpCount}}</span>)</a>
+	{{if $logined}}
+		<a href="/admin/article/{{$v.Id}}/edit">[编辑]</a>
+		<a href="/article/{{$v.Id}}/disable" onclick="return confirm('确定移除博客吗？')">[移除]</a>
+	{{end}}
+	</div>
+</div>
+{{end}}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{.title}} - {{.settings.BlogName}}</title>
+    <meta charset="utf-8"/> 
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,minimal-ui">
+    {{if .settings}}
+      <link rel="shortcut icon" href="{{.settings.Favicon}}">
+    {{else}}
+      <link rel="shortcut icon" href="/static/images/favicon.ico">
+    {{end}}
+
+    {{if .advert}}
+      {{html .advert.MetaLink}}
+    {{end}}
+
+    <link rel="stylesheet" type="text/css" href="/static/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+    <script type="text/javascript" src="/static/js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.cookie.js"></script>    
+  </head>
+  <body>
+	  <div class="layout">
+	  {{template "parts/header" .}}
+	  {{template "parts/nav" .}}
+	  {{ yield }}
+	  {{template "parts/footer" .}}
+	  </div>
+
+    <a id="goto-top" href="javascript:;"></a>
+
+    {{template "parts/script" .}}
+  </body>
+</html>

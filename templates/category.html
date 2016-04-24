@@ -1,0 +1,26 @@
+	  <div class="container clearfix">
+
+	  		<div class="content">
+	  			<div class="flow">	 
+	  				{{template "parts/article_list" .}}
+
+					{{if gt .pager.TotalCount 0}}
+		  			<div class="pager"> 第 {{.pager.CurrentPage}} 页 共 {{.pager.TotalPage}} 页
+		  				{{if.pager.HasPrev}}
+		  				<a href="/category/{{.categoryId}}/{{.pager.PrevPage}}">上一页</a>
+		  				{{end}}
+		  				{{if.pager.HasNext}}
+		  				<a href="/category/{{.categoryId}}/{{.pager.NextPage}}">下一页</a>
+		  				{{end}}
+		  			</div>
+		  			{{else}}
+		  				<p>没有任何内容</p>
+		  			{{end}}
+		  			
+	  			</div>
+
+	  		</div>
+
+	  		{{template "parts/sider_bar" .}}
+
+	  </div>

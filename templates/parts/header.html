@@ -1,0 +1,16 @@
+<div class="header clearfix">
+	<div class="l">
+	  	<h1 class="blog_title">
+	  	{{if .settings}}
+	  		{{.settings.BlogName}}
+	  	{{else}}
+	  		我的博客
+	  	{{end}}
+	  	</h1>
+	</div>
+	<div class="r">	 
+		{{if .advert}}
+			{{html .advert.Ad1}}
+		{{end}}
+	</div>
+</div>

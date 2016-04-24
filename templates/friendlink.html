@@ -1,0 +1,99 @@
+	  <div class="container clearfix">
+
+	  	<div class="content">
+	  		<div class="flow">
+
+	  			<div class="article">
+	  				<h3 id="id_blog_title" class="article_title" style="font-size: 1.2em;">
+	  					友情链接交换注意事项:
+	  				</h3>
+	  				
+	  				<div class="article_summary">
+						友情链接交换要求您的博客以原创博客为主，鼓励传播技术研究心得或项目开发经验，帮助新老人入门和学习用途。在此欢迎新老博主交换链接。如果您已经把本博客首页地址放入贵站，只要在下面添加您的博客名，首页链接和博客介绍即可，博主一旦发现有提交的链接，会毫不犹豫通过申请。
+	  				</div>
+
+	  				<div id="comment" class="comment">
+	  					<div class="comment_head clearfix">
+	  						<div class="l">按时间先后排序已有 <span id="id_comment_count2">{{.friendLinkCount}}</span> 个友情链接</div>
+	  						<div class="r">
+	  							<a href="#comment_submit">添加链接</a>
+	  						</div>
+	  					</div>
+
+	  					<div class="comment_content">
+	  						{{if .friendLinkList }}
+	  						{{$logined := .logined}}
+							{{range $i,$v := .friendLinkList}}
+	  						<div id="items{{add $i 1}}" class="items">
+	  							<p><b>第 {{add $i 1}} 个 </b> 添加于 {{timeFormat $v.Created "2006-01-02 15:04:05"}}
+	  							{{if $logined}}
+	  								{{if $v.Status}}
+	  									<a href="javascript:;" onclick="passFriendLink({{$v.Id}},2)">暂时下架</a>
+	  								{{else}}
+	  									<a href="javascript:;" onclick="passFriendLink({{$v.Id}},1)">审核通过</a>
+	  								{{end}}
+	  							{{end}}
+	  							</p>
+	  							<div class="item">
+	  								<h3><a href="{{.Link}}" target="_blank">{{$v.Name}}</a></h3>{{$v.Intro}}	  								
+	  							</div>
+	  						</div>
+	  						{{end}}
+	  						{{else}}
+	  							<p class="no_comment">暂时没有友情链接！</p>
+	  						{{end}}
+	  					</div>
+
+
+	  					<div id="comment_submit" class="comment_submit">
+	  						<table>
+	  							<tr>
+	  								<td>博客名<span class="flag_required">*</span>：</td>
+	  								<td>
+	  									<input type="text" id="id_name" name="name" style="width:32em;"/>	  
+	  								</td>
+	  							</tr>
+	  							<tr>
+	  								<td>首页链接<span class="flag_required">*</span>：</td>
+	  								<td>
+	  									<input type="text" id="id_link" name="link" value="http://" placeholder="http://www.example.com" style="width:32em;" />	 
+	  								</td>
+	  							</tr>
+	  							<tr>
+	  								<td>博客介绍<span class="flag_required">*</span>：</td>
+	  								<td>
+	  									<textarea name="intro" id="id_intro" style="width:32em;height: 15em;"></textarea>
+	  								</td>
+	  							</tr>
+	  							<tr>
+	  								<td>验证码<span class="flag_required">*</span>：</td>
+	  								<td>
+	  									<input type="text" id="id_vcode" name="vildCode" autocomplete="off" style="width:19em;" />	
+	  								</td>
+	  							</tr>
+	  							<tr>
+	  								<td></td>
+	  								<td>
+	  									<a href="javascript:void(0);" onclick="reload()">
+	  										<img id="captcha_image" src="/captcha/{{.captchaId}}.png" alt="验证码" style="vertical-align: bottom;border: none;"></a> <a href="javascript:void(0);" onclick="reload()">看不清换另一张</a>
+	  								</td>
+	  							</tr>
+	  							<tr>
+	  								<td>&nbsp;</td>
+	  								<td>
+	  									<input type="button" name="email" value="提交" onclick="return checkFriendLinkForm()" /> <span id="id_msg" class="flag_required"></span>
+	  									<input type="hidden" id="id_vcode_src" value="{{.captchaId}}"> 
+	  								</td>
+	  							</tr>
+	  						</table>
+
+	  					</div>
+	  				</div>
+	  				
+	  			</div>
+
+	  		</div>
+
+	  	</div>
+	  	{{template "parts/sider_bar" .}}
+	  </div>
