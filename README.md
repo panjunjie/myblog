@@ -13,7 +13,7 @@ myblog 这么一个简单的 web 项目，竟然花了好几天的时间，想�
 另外 codegangsta 也不错，Martini 名声在外，干脆使用他的 web 中间件 negroni
 4. web 中间件 github.com/codegangsta/negroni
 
-还有一些很有用的 中间件，都是看 codegangsta  的东西 偶尔发现的：
+还有一些很有用的 中间件，都是看 codegangsta  的东西 偶尔发现的
 5. html json xml 组件采用 https://github.com/unrolled/render
 6. 表单绑定 中间件采用 https://github.com/mholt/binding
 
