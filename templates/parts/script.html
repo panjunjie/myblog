@@ -259,6 +259,11 @@ function checkCommentForm(){
 		return false;
 	}	
 
+	if(AntiSqlValid(id_content.val())){
+		 id_msg.html("抱歉，内容包含非法字符！");
+	  	return false;
+	}
+
 	$.ajax({
 		"url":"/add_comment_ajax",
 		"type":"POST",
@@ -405,4 +410,12 @@ function reload() {
 	  //setSrcQuery(document.getElementById('audio'), (new Date()).getTime());
 	  return false;
 }
+
+//禁止包含SQL语句
+function AntiSqlValid(text)
+{
+     re=/select|update|delete|truncate|join|union|exec|insert|drop|count|script|>|<|%/i;
+     return re.test(text);
+ } 
+
 </script>
