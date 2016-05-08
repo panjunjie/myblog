@@ -72,12 +72,16 @@
 	  					</div>
 
 	  					<div class="comment_content">
+	  						{{$logined := .logined}}
 	  						{{if .commentList }}
 								{{range $i,$v := .commentList}}
 			  						<div id="items{{$v.Id}}" class="items">
 			  							<p> <b>{{add $i 1}} 楼：</b>
 			  								{{if ne $v.UserId 0}}<a href="/about">{{$v.UserName}}(博主)</a>{{else}}{{$v.UserName}}{{end}} 发表于 {{timeFormat $v.Created "2006-01-02 15:04:05"}}
-			  								<a href="#comment_submit" onclick="reply_action('{{$v.UserName}}','{{$v.Id}}')">回复 TA</a>
+			  								&nbsp;&nbsp;<a href="#comment_submit" onclick="reply_action('{{$v.UserName}}','{{$v.Id}}')">回复 TA</a>
+			  								{{if eq $logined true}}
+			  								&nbsp;&nbsp;<a href="javascript:void(0);" onclick="del_comment_action('{{$v.Id}}')">删除评论</a>
+			  								{{end}}
 			  							</p>
 			  							{{if eq $v.RefContent ""}}
 			  								<div class="item">{{$v.Content}}</div>

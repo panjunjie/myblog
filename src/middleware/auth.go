@@ -17,7 +17,7 @@ func NewCheckLogin() *CheckLogin {
 }
 
 func (t *CheckLogin) ServeHTTP(rw http.ResponseWriter, req *http.Request, next http.HandlerFunc) {
-	if controller.GetSession(req, controller.LOGIN_ADMIN) == nil {
+	if controller.GetSession(req, controller.SESSION_WEB) == nil {
 		var login_url = t.LoginUrl
 		next := req.URL.Path
 		next_lower := strings.ToLower(next)

@@ -238,6 +238,32 @@ func AddCommentAjax(w http.ResponseWriter, req *http.Request) {
 	r.JSON(w, http.StatusOK, retMap)
 }
 
+func DelCommentAjax(w http.ResponseWriter, req *http.Request) {
+	if strings.ToUpper(req.Method) == "POST" {
+		commentId := req.FormValue("commentId")
+		if commentId != "" {
+			if GetSession(req, LOGIN_ADMIN) == nil {
+				r.Text(w, http.StatusOK, "2")
+				return
+			} else {
+				obj, err := dbMap.Get(models.Comment{}, commentId)
+				showErr(err, fmt.Sprintf("获取评论 id(%s) 失败", commentId))
+				comment := obj.(*models.Comment)
+				_, err = dbMap.Delete(comment)
+				showErr(err, fmt.Sprintf("删除评论 id(%s) 失败", commentId))
+				r.Text(w, http.StatusOK, "1")
+				return
+			}
+		} else {
+			r.Text(w, http.StatusOK, "0")
+			return
+		}
+	}
+
+	r.Text(w, http.StatusOK, "0")
+	return
+}
+
 func SearchArticle(w http.ResponseWriter, req *http.Request) {
 	start := time.Now()
 

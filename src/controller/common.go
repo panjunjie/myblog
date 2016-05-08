@@ -6,6 +6,7 @@ import (
 	"myblog/src/lib"
 	"myblog/src/models"
 	"net/http"
+	"runtime"
 	"strconv"
 	"strings"
 	"time"
@@ -77,6 +78,9 @@ func commonContextProcess(req *http.Request, ctx map[string]interface{}) map[str
 
 	//广告记录
 	ctx["advert"] = getAdvert()
+
+	//构建语言
+	ctx["langVersion"] = strings.Replace(runtime.Version(), "go", "Go ", -1)
 
 	return ctx
 }

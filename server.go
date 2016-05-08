@@ -32,6 +32,8 @@ func main() {
 	router.HandleFunc("/article/search", controller.SearchArticle)
 
 	router.HandleFunc("/add_comment_ajax", controller.AddCommentAjax)
+	router.HandleFunc("/del_comment_ajax", controller.DelCommentAjax)
+
 	router.HandleFunc("/article/rss", controller.ArticleRss)
 
 	router.HandleFunc("/archives/{year}/{month}/", controller.ArticleArchives)

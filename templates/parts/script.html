@@ -325,6 +325,30 @@ function reply_action(userName,commentId){
 	$("#id_content").attr({"placeholder":"@"+userName});
 }
 
+
+function del_comment_action(commentId){
+	if(confirm("是否确定删除？")){
+		$.ajax({
+			"url":"/del_comment_ajax",
+			"type":"POST",
+			"data":{"commentId":commentId},
+			"dataType":"json",
+			"success":function(ret){
+				if(ret=="1"){
+					var commentCount = parseInt($("#id_comment_count").val())-1;
+					$("#id_comment_count").val(commentCount);
+					$("#id_comment_count2").html(commentCount);
+
+					$("#items"+commentId).remove();					
+				}else if(ret=="2"){	
+					alert("抱歉，您无法删除此评论！");
+				}
+			}
+		});
+
+	}
+}
+
 function checkAboutMeForm(){
     var id_email = $("#id_email");
     var id_nickName = $("#id_nickName");
