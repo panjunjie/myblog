@@ -242,7 +242,7 @@ func DelCommentAjax(w http.ResponseWriter, req *http.Request) {
 	if strings.ToUpper(req.Method) == "POST" {
 		commentId := req.FormValue("commentId")
 		if commentId != "" {
-			if GetSession(req, LOGIN_ADMIN) == nil {
+			if GetSession(req, SESSION_WEB) == nil {
 				r.Text(w, http.StatusOK, "2")
 				return
 			} else {

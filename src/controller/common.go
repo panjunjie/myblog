@@ -95,7 +95,7 @@ func loginProcess(req *http.Request, ctx map[string]interface{}) map[string]inte
 
 func _loginProcess(req *http.Request) bool {
 	logined := false
-	if GetSession(req, LOGIN_ADMIN) != nil {
+	if GetSession(req, SESSION_WEB) != nil {
 		logined = true
 	}
 	return logined

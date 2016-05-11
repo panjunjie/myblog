@@ -91,7 +91,7 @@ func AddFriendLinkAjax(w http.ResponseWriter, req *http.Request) {
 func PassFriendLinkAjax(w http.ResponseWriter, req *http.Request) {
 	retMap := make(map[string]interface{})
 	if strings.ToUpper(req.Method) == "POST" {
-		if GetSession(req, LOGIN_ADMIN) != nil {
+		if GetSession(req, SESSION_WEB) != nil {
 			id := req.FormValue("id")
 			action := req.FormValue("action")
 

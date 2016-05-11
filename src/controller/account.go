@@ -9,10 +9,6 @@ import (
 	"time"
 )
 
-var (
-	LOGIN_ADMIN = "LOGIN_ADMIN"
-)
-
 func AccountLogin(w http.ResponseWriter, req *http.Request) {
 	ctx := make(map[string]interface{})
 
@@ -35,7 +31,7 @@ func AccountLogin(w http.ResponseWriter, req *http.Request) {
 			}
 
 			if account.Password == lib.MD5(password) {
-				SetSession(req, w, LOGIN_ADMIN, account)
+				SetSession(req, w, SESSION_WEB, account)
 				dbMap.Exec("update account set lastlogin=$1 where $2", time.Now(), account.Id)
 
 				if next != "" {
@@ -63,7 +59,7 @@ func AccountLogin(w http.ResponseWriter, req *http.Request) {
 
 		ctx["flashes"] = GetFlashMessages(req, w)
 
-		if currentUser := GetSession(req, LOGIN_ADMIN); currentUser != nil {
+		if currentUser := GetSession(req, SESSION_WEB); currentUser != nil {
 			if next == "" {
 				next = "/"
 			}
@@ -77,7 +73,7 @@ func AccountLogin(w http.ResponseWriter, req *http.Request) {
 }
 
 func AccountLogout(w http.ResponseWriter, req *http.Request) {
-	ClearSession(req, w, LOGIN_ADMIN)
+	ClearSession(req, w, SESSION_WEB)
 	ClearAllSession(req, w)
 	http.Redirect(w, req, "/", http.StatusFound)
 }
